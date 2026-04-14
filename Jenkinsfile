@@ -1,40 +1,32 @@
 pipeline {
-    agent any  // Use any available agent
+    agent any
 
     tools {
-        gradle 'Gradle'  // Ensure this matches the name configured in Jenkins
-        jdk 'JDK'
+        gradle 'Gradle'
+        jdk 'JDK'   // must point to Java 21 in Jenkins
     }
+
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/shraddha1231/MyGradleApp.git'
-            }
-        }
 
         stage('Build') {
             steps {
-                sh 'gradle build'  // Run Gradle build
+                sh 'echo JAVA_HOME=$JAVA_HOME'
+                sh 'java -version'
+                sh 'gradle clean build'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'gradle test'  // Run unit tests
+                sh 'gradle test'
             }
         }
 
-        
-        
-       
         stage('Run Application') {
             steps {
-                // Start the JAR application
                 sh 'gradle run'
             }
         }
-
-        
     }
 
     post {
