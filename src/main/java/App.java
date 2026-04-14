@@ -6,33 +6,39 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class App {
 
-    public String getGreeting() {
-        return "Hello world.";
-    }
-
     public static void main(String[] args) {
 
-        // Setup driver automatically
         WebDriverManager.chromedriver().setup();
 
-        // 🔥 IMPORTANT: headless configuration for Jenkins/Linux
         ChromeOptions options = new ChromeOptions();
+
+        // ✅ REQUIRED for Jenkins/Linux
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
 
+        // 🔥 IMPORTANT stability flags (your missing piece)
+        options.addArguments("--remote-debugging-port=9222");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--disable-extensions");
+        options.addArguments("--disable-background-networking");
+
         WebDriver driver = new ChromeDriver(options);
 
-        driver.get("https://www.saucedemo.com/");
-        driver.manage().window().maximize();
+        try {
+            driver.get("https://www.saucedemo.com/");
 
-        driver.findElement(By.id("user-name")).sendKeys("standard_user");
-        driver.findElement(By.id("password")).sendKeys("secret_sauce");
-        driver.findElement(By.id("login-button")).click();
+            driver.findElement(By.id("user-name")).sendKeys("standard_user");
+            driver.findElement(By.id("password")).sendKeys("secret_sauce");
+            driver.findElement(By.id("login-button")).click();
 
-        System.out.println(new App().getGreeting());
-
-        driver.quit();
+            System.out.println("Login successful");
+        } catch (Exception e) {
+            e.printStackTrace();   // 🔥 shows exact Jenkins error
+            throw e;
+        } finally {
+            driver.quit();
+        }
     }
 }
