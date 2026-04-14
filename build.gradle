@@ -1,26 +1,29 @@
-apply plugin: 'java'
-apply plugin: 'application'
+plugins {
+    id 'java'
+    id 'application'
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    // Selenium (required)
-    compile 'org.seleniumhq.selenium:selenium-java:4.21.0'
+    // Selenium
+    implementation 'org.seleniumhq.selenium:selenium-java:4.21.0'
 
-    // FIX: Auto driver management (VERY IMPORTANT)
-    compile 'io.github.bonigarcia:webdrivermanager:5.8.0'
+    // WebDriverManager
+    implementation 'io.github.bonigarcia:webdrivermanager:5.8.0'
 
     // Guava
-    compile 'com.google.guava:guava:23.0'
+    implementation 'com.google.guava:guava:23.0'
 
     // JUnit
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
 }
 
-// IMPORTANT for old Gradle versions
-mainClassName = 'App'
+application {
+    mainClass = 'App'
+}
 
 task display {
     doLast {
