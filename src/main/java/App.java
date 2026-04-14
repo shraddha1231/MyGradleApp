@@ -12,17 +12,11 @@ public class App {
 
         ChromeOptions options = new ChromeOptions();
 
-        // ✅ REQUIRED for Jenkins/Linux
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
-
-        // 🔥 IMPORTANT stability flags (your missing piece)
-        options.addArguments("--remote-debugging-port=9222");
         options.addArguments("--window-size=1920,1080");
-        options.addArguments("--disable-extensions");
-        options.addArguments("--disable-background-networking");
 
         WebDriver driver = new ChromeDriver(options);
 
@@ -34,8 +28,9 @@ public class App {
             driver.findElement(By.id("login-button")).click();
 
             System.out.println("Login successful");
+
         } catch (Exception e) {
-            e.printStackTrace();   // 🔥 shows exact Jenkins error
+            e.printStackTrace();
             throw e;
         } finally {
             driver.quit();
