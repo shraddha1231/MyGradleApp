@@ -2,29 +2,35 @@ pipeline {
     agent any
 
     tools {
-        gradle 'Gradle'     // same name as in Jenkins
-        jdk 'JDK'         // MUST match your Java 21 config name
+        gradle 'Gradle'
+        jdk 'JDK'   // must point to Java 21 in Jenkins tool config
     }
 
     stages {
+
+        stage('Clean') {
+            steps {
+                sh './gradlew clean || gradle clean'
+            }
+        }
 
         stage('Build') {
             steps {
                 sh 'echo JAVA_HOME=$JAVA_HOME'
                 sh 'java -version'
-                sh 'gradle build'
+                sh './gradlew build || gradle build'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'gradle test'
+                sh './gradlew test || gradle test'
             }
         }
 
         stage('Run Application') {
             steps {
-                sh 'gradle run'
+                sh './gradlew run || gradle run'
             }
         }
     }
