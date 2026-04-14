@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         gradle 'Gradle'     // same name as in Jenkins
-        jdk 'JDK21'         // MUST match your Java 21 config name
+        jdk 'JDK'         // MUST match your Java 21 config name
     }
 
     stages {
