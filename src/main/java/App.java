@@ -2,6 +2,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class App {
 
@@ -11,10 +12,17 @@ public class App {
 
     public static void main(String[] args) {
 
-        // ✅ FIX: automatically downloads correct ChromeDriver
+        // Setup driver automatically
         WebDriverManager.chromedriver().setup();
 
-        WebDriver driver = new ChromeDriver();
+        // 🔥 IMPORTANT: headless configuration for Jenkins/Linux
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+
+        WebDriver driver = new ChromeDriver(options);
 
         driver.get("https://www.saucedemo.com/");
         driver.manage().window().maximize();
